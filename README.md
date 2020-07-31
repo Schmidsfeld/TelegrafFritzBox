@@ -28,6 +28,7 @@ The script utilizes a single connection to the FritzBox router with the FritzCon
 * By default the influxDB dataset FritzBox will be generated
 * All datasets are tagged by the hostname of the router and grouped into different sources
 * All names are sanitized (no "New" in variable names)
+* All variables are cast into appropriate types (integer for numbers, string for expressions and float for 64bit total traffic)
 
 Example: 
 
