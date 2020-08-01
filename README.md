@@ -3,7 +3,7 @@
 [![made-with-python](https://img.shields.io/badge/Python-3.7%2C%203.8-green)](https://www.python.org)
 [![HitCount](http://hits.dwyl.com/Schmidsfeld/TelefrafFritzBox.svg)](http://hits.dwyl.com/Schmidsfeld/TelefrafFritzBox)
 
-# TelefrafFritzBox
+# TelegrafFritzBox
 A Telegraf collector written in Phthon, gathering several crucial metrics for the Fritz!Box router by AVM via the TR-064 protocol. This collection includes a main phyton3 script, a telegraf config file and a Grafana dashboard.
 
 The communication with the router is based on the FritzConnection library https://github.com/kbr/fritzconnection by Klaus Bremer.
@@ -42,12 +42,12 @@ Several prerequisites need to be met to successfully install this script and gen
 * Have a dedicated user on the Fritz!Box (the username:Telegraf is assumed, but any will do)
 * Install python3 and pip  (for example: apt install python3-pip)
 * Locally clone the fritzconnection library (pip3 install fritzconnection)
-* Clone this project (git clone https://github.com/Schmidsfeld/TelefrafFritzBox/
-* Edit the python file and adjust the credentials (nano ./TelefrafFritzBox/telegrafFritzBox.py)
-* Make it executeamle (chmod +x ./TelefrafFritzBox/telegrafFritzBox.py)
-* Test the output (python3 ./TelefrafFritzBox/telegrafFritzBox.py)
-* Copy it to the appropiate locatio (cp ./TelefrafFritzBox/telegrafFritzBox.py /usr/local/bin)
-* Copy the Telegraf config file to the correct location or append it to your current file (cp ./TelefrafFritzBox/telegrafFritzBox.conf /etc/telegraf/telegraf.d)
+* Clone this project (git clone https://github.com/Schmidsfeld/TelegrafFritzBox/
+* Edit the python file and adjust the credentials (nano ./TelegrafFritzBox/telegrafFritzBox.py)
+* Make it executeamle (chmod +x ./TelegrafFritzBox/telegrafFritzBox.py)
+* Test the output (python3 ./TelegrafFritzBox/telegrafFritzBox.py)
+* Copy it to the appropiate locatio (cp ./TelegrafFritzBox/telegrafFritzBox.py /usr/local/bin)
+* Copy the Telegraf config file to the correct location or append it to your current file (cp ./TelegrafFritzBox/telegrafFritzBox.conf /etc/telegraf/telegraf.d)
 * Restart your Telegraf service (systemctl restart telegraf)
 * Load your Grafana Dashboard
 
