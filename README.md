@@ -8,7 +8,9 @@ A Telegraf collector written in Phthon, gathering several crucial metrics for th
 
 The communication with the router is based on the FritzConnection library https://github.com/kbr/fritzconnection by Klaus Bremer.
 
-Forking and modifying this script is explicitly encouraged (hence you most likely need to adjust for your situation). I would appreciate if you drop me a note f you implement other stuff so I can backport it into the main script.
+For some future development of this script (especially with cable internet access) additional help is required.
+
+Forking and modifying this script is explicitly encouraged (hence you most likely need to adjust for your situation). I would appreciate if you drop me a note f you implement other stuff so I can backport it into the main script. 
 
 
 ## The End Result
@@ -42,15 +44,19 @@ Several prerequisites need to be met to successfully install this script and gen
 * Have a dedicated user on the Fritz!Box (the username:Telegraf is assumed, but any will do)
 * Install python3 and pip  (for example: apt install python3-pip)
 * Locally clone the fritzconnection library (pip3 install fritzconnection)
-* Clone this project (git clone https://github.com/Schmidsfeld/TelegrafFritzBox/
+* Clone this project (git clone https://github.com/Schmidsfeld/TelegrafFritzBox/)
 * Edit the python file and adjust the credentials (nano ./TelegrafFritzBox/telegrafFritzBox.py)
 * Make it executeamle (chmod +x ./TelegrafFritzBox/telegrafFritzBox.py)
 * Test the output (python3 ./TelegrafFritzBox/telegrafFritzBox.py)
 * Copy it to the appropiate locatio (cp ./TelegrafFritzBox/telegrafFritzBox.py /usr/local/bin)
 * Copy the Telegraf config file to the correct location or append it to your current file (cp ./TelegrafFritzBox/telegrafFritzBox.conf /etc/telegraf/telegraf.d)
 * Restart your Telegraf service (systemctl restart telegraf)
-* Load your Grafana Dashboard
+* Load your Grafana dashboard (GrafanaFritzBoxDashboard.json)
 
-
-
+## Future Plans
+This Project is ready and tested locally, to ensure it is suiteable for publications, but not yet finished. For some parts I need help with additional testing (especially other connections than DSL). There are several things planned for future releases:
+* Gather more stats (active clients in LAN, etc)
+* Getting data about active phones and calls etc
+* Read data from connected smarthome devices like the Fritz!DECT200
+* Gather upstream information for cable based uplinks
 
