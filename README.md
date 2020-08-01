@@ -20,9 +20,12 @@ Information that you get
 * Local networks (LAN and WLAN traffic)
 * connected WLAN clients
 
+![Grafana dashboard](FritzBoxDashboard.png?raw=true)
+
 ## Details
 ### Concept
 The script utilizes a single connection to the FritzBox router with the FritzConnection library. From there it reads out several service variable collections via TR-064. Note, that for performance reasons only one connection is established and every statistics output is only requested once. From the dictionary responses containing several variables each, the desired variables are extracted manually and parsed. The parsed arguments are then formatted appropriately as integers or strings according to the influxDB naming scheme. Lastly the gathered information is output as several lines in the format directly digested by Telegraf / InfluxDB.
+
 ### Output
 * The output is formatted in the influxDB format. 
 * By default the influxDB dataset FritzBox will be generated
@@ -30,5 +33,24 @@ The script utilizes a single connection to the FritzBox router with the FritzCon
 * All names are sanitized (no "New" in variable names)
 * All variables are cast into appropriate types (integer for numbers, string for expressions and float for 64bit total traffic)
 
-Example: 
+![Grafana dashboard](OutputScript.png?raw=true)
+
+## Install
+Several prerequisites need to be met to successfully install this script and generate the metrics. Some seem to be obvious but will be mentioned here for sake of complete documentation. 
+* Have an operational TIG stack (Telegraf, InfluxDB Grafana) with all of them installed and operational.
+* Activate the TR-064 protocoll in the Fritzbox (Heimnetz -> Netzwerk -> Netzwerkeinstellungen)
+* Have a dedicated user on the Fritz!Box (the username:Telegraf is assumed, but any will do)
+* Install python3 and pip  (for example: apt install python3-pip)
+* Locally clone the fritzconnection library (pip3 install fritzconnection)
+* Clone this project (git clone https://github.com/Schmidsfeld/TelefrafFritzBox/
+* Edit the python file and adjust the credentials (nano ./TelefrafFritzBox/telegrafFritzBox.py)
+* Make it executeamle (chmod +x ./TelefrafFritzBox/telegrafFritzBox.py)
+* Test the output (python3 ./TelefrafFritzBox/telegrafFritzBox.py)
+* Copy it to the appropiate locatio (cp ./TelefrafFritzBox/telegrafFritzBox.py /usr/local/bin)
+* Copy the Telegraf config file to the correct location or append it to your current file (cp ./TelefrafFritzBox/telegrafFritzBox.conf /etc/telegraf/telegraf.d)
+* Restart your Telegraf service (systemctl restart telegraf)
+* Load your Grafana Dashboard
+
+
+
 
