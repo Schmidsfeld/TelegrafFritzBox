@@ -171,9 +171,15 @@ if FRITZBOX_CONNECTION_DSL:
 
     dsl = assemblevar(dslDown, dslUp, dslMaxDown, dslMaxUp, noiseDown, noiseUp, powerDown, powerUp, attenuationDown, attenuationUp, hecError, hecErrorLocal, crcError, crcErrorLocal, fecError, fecErrorLocal )
     influxrow('dsl', dsl)
-else:
-    print (readfritz('WANDOCSISInterfaceConfig1', 'GetInfo'))
-    print (readfritz('WANDOCSISInterfaceConfig1', 'GetStatisticsTotal'))
+
+wancommon = readfritz('WANCommonInterfaceConfig1', 'GetCommonLinkProperties')
+
+upStreamMax = extractvar(wancommon, 'NewLayer1UpstreamMaxBitRate', True)
+downStreamMax = extractvar(wancommon, 'NewLayer1DownstreamMaxBitRate', True)
+linkStatus = extractvar(wancommon, 'NewPhysicalLinkStatus', True)
+
+wan = assemblevar( upStreamMax, downStreamMax, linkStatus)
+influxrow('wancommon', wan)
 
 network = assemblevar(externalIP, dns, localDns, hostsKnown)
 influxrow('network', network)
