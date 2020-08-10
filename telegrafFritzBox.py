@@ -76,7 +76,6 @@ trafficInfo = readfritz('WANCommonIFC1', 'GetAddonInfos')
 connectionInfo = getConnectionInfo(fc)
 dslInfo = readfritz('WANDSLInterfaceConfig1', 'GetInfo')
 dslError = readfritz('WANDSLInterfaceConfig1', 'GetStatisticsTotal')
-dslInfo = readfritz('WANDSLInterfaceConfig1', 'GetInfo')
 fritzInfo = readfritz('LANHostConfigManagement1', 'GetInfo')
 dhcpInfo = readfritz('Hosts1', 'GetHostNumberOfEntries')
 lanStat = readfritz('LANEthernetInterfaceConfig1', 'GetStatistics')
@@ -118,24 +117,6 @@ connectionError = extractvar(connectionInfo, 'NewLastConnectionError', False, Tr
 externalIP = extractvar(connectionInfo, 'NewExternalIPAddress', False, True)
 dns = extractvar(connectionInfo, 'NewDNSServers', False, True)
 
-# Try to extract all the DSL Statistics
-dslDown = extractvar(dslInfo, 'NewDownstreamCurrRate', True)
-dslUp = extractvar(dslInfo, 'NewUpstreamCurrRate', True)
-dslMaxDown = extractvar(dslInfo, 'NewDownstreamMaxRate', True)
-dslMaxUp = extractvar(dslInfo, 'NewUpstreamMaxRate', True)
-noiseDown = extractvar(dslInfo, 'NewDownstreamNoiseMargin', True)
-noiseUp = extractvar(dslInfo, 'NewUpstreamNoiseMargin', True)
-powerDown = extractvar(dslInfo, 'NewDownstreamPower', True)
-powerUp = extractvar(dslInfo, 'NewUpstreamPower', True)
-attenuationDown = extractvar(dslInfo, 'NewDownstreamAttenuation', True)
-attenuationUp = extractvar(dslInfo, 'NewUpstreamAttenuation', True)
-fecError = extractvar(dslError, 'NewFECErrors', True)
-fecErrorLocal = extractvar(dslError, 'NewATUCFECErrors', True)
-crcError = extractvar(dslError, 'NewCRCErrors', True)
-crcErrorLocal = extractvar(dslError, 'NewATUCCRCErrors', True)
-hecError = extractvar(dslError, 'NewHECErrors', True)
-hecErrorLocal = extractvar(dslError, 'NewATUCHECErrors', True)
-
 #LocalNetwork Information
 localDns = extractvar(fritzInfo, 'NewDNSServers', False, True,'LocalDNSServer')
 hostsKnown = extractvar(dhcpInfo, 'NewHostNumberOfEntries', True, False)
@@ -159,7 +140,6 @@ wlanClients24 = extractvar(wlanAssoc24, 'NewTotalAssociations', True, False, 'Cl
 wlanClients50 = extractvar(wlanAssoc50, 'NewTotalAssociations', True, False, 'ClientsNumber')
 wlanClientsGuest = extractvar(wlanAssocGuest, 'NewTotalAssociations', True, False, 'ClientsNumber')
 
-
 #Output variables as sets of influxdb compatible lines 
 general = assemblevar(model, connectionType, serial, firmware)
 influxrow('general', general)
@@ -171,8 +151,29 @@ wan = assemblevar(connectionTime, maxDownRate, maxUpRate, downRate, upRate,  dow
 influxrow('wan', wan)
 
 if FRITZBOX_CONNECTION_DSL:
+    # Try to extract all the DSL Statistics
+    dslDown = extractvar(dslInfo, 'NewDownstreamCurrRate', True)
+    dslUp = extractvar(dslInfo, 'NewUpstreamCurrRate', True)
+    dslMaxDown = extractvar(dslInfo, 'NewDownstreamMaxRate', True)
+    dslMaxUp = extractvar(dslInfo, 'NewUpstreamMaxRate', True)
+    noiseDown = extractvar(dslInfo, 'NewDownstreamNoiseMargin', True)
+    noiseUp = extractvar(dslInfo, 'NewUpstreamNoiseMargin', True)
+    powerDown = extractvar(dslInfo, 'NewDownstreamPower', True)
+    powerUp = extractvar(dslInfo, 'NewUpstreamPower', True)
+    attenuationDown = extractvar(dslInfo, 'NewDownstreamAttenuation', True)
+    attenuationUp = extractvar(dslInfo, 'NewUpstreamAttenuation', True)
+    fecError = extractvar(dslError, 'NewFECErrors', True)
+    fecErrorLocal = extractvar(dslError, 'NewATUCFECErrors', True)
+    crcError = extractvar(dslError, 'NewCRCErrors', True)
+    crcErrorLocal = extractvar(dslError, 'NewATUCCRCErrors', True)
+    hecError = extractvar(dslError, 'NewHECErrors', True)
+    hecErrorLocal = extractvar(dslError, 'NewATUCHECErrors', True)
+
     dsl = assemblevar(dslDown, dslUp, dslMaxDown, dslMaxUp, noiseDown, noiseUp, powerDown, powerUp, attenuationDown, attenuationUp, hecError, hecErrorLocal, crcError, crcErrorLocal, fecError, fecErrorLocal )
     influxrow('dsl', dsl)
+else:
+    print (readfritz('WANDOCSISInterfaceConfig1', 'GetInfo'))
+    print (readfritz('WANDOCSISInterfaceConfig1', 'GetStatisticsTotal'))
 
 network = assemblevar(externalIP, dns, localDns, hostsKnown)
 influxrow('network', network)
