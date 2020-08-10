@@ -1,12 +1,13 @@
-#!/opt/bin/python3
+#!/usr/bin/env python 
 
 from fritzconnection import FritzConnection
 import sys
+import os
 
-FRITZBOX_IP = "192.168.178.1"
-FRITZBOX_USER = "telegraf"
-FRITZBOX_PASSWORD = "SuperStrongPassword"
-FRITZBOX_ID = 'FritzBox'
+FRITZBOX_IP = os.environ.get('TGFB_IP', '192.168.178.1')
+FRITZBOX_USER = os.environ.get('TGFB_USER', 'telegraf')
+FRITZBOX_PASSWORD = os.environ.get('TGFB_PASSWD')
+FRITZBOX_ID = os.environ.get('TGFB_ID', 'FrizBox')
 
 try:
     fc = FritzConnection(address=FRITZBOX_IP, user=FRITZBOX_USER, password=FRITZBOX_PASSWORD, timeout=2.0)

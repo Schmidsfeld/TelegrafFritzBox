@@ -22,7 +22,7 @@ Information that you get
 * Local networks (LAN and WLAN traffic)
 * connected WLAN clients
 
-![Grafana dashboard](FritzBoxDashboard.png?raw=true)
+![Grafana dashboard](doc/FritzBoxDashboard.png?raw=true)
 
 ## Details
 ### Concept
@@ -35,7 +35,7 @@ The script utilizes a single connection to the FritzBox router with the FritzCon
 * All names are sanitized (no "New" in variable names)
 * All variables are cast into appropriate types (integer for numbers, string for expressions and float for 64bit total traffic)
 
-![Grafana dashboard](OutputScript.png?raw=true)
+![Grafana dashboard](doc/OutputScript.png?raw=true)
 
 ## Install
 Several prerequisites need to be met to successfully install this script and generate the metrics. Some seem to be obvious but will be mentioned here for sake of complete documentation. 
@@ -51,7 +51,7 @@ Several prerequisites need to be met to successfully install this script and gen
 * Copy it to the appropiate locatio (cp ./TelegrafFritzBox/telegrafFritzBox.py /usr/local/bin)
 * Copy the Telegraf config file to the correct location or append it to your current file (cp ./TelegrafFritzBox/telegrafFritzBox.conf /etc/telegraf/telegraf.d)
 * Restart your Telegraf service (systemctl restart telegraf)
-* Load your Grafana dashboard (GrafanaFritzBoxDashboard.json)
+* Load your Grafana dashboard (grafana/GrafanaFritzBoxDashboard.json)
 
 ## Future Plans
 This Project is ready and tested locally, to ensure it is suiteable for publications, but not yet finished. For some parts I need help with additional testing (especially other connections than DSL). There are several things planned for future releases:
@@ -60,3 +60,56 @@ This Project is ready and tested locally, to ensure it is suiteable for publicat
 * Read data from connected smarthome devices like the Fritz!DECT200
 * Gather upstream information for cable based uplinks
 
+## Docker and Telegraf
+
+### Build the docker image yourself
+
+```
+docker build -t chevdor/fritzgraf . 
+```
+
+### Be lazy and use an existing image
+
+```
+docker pull chevdor/fritzgraf
+```
+
+### Start the container
+
+First, you will need 2 files:
+- one configuration file for telegraf
+- one configuration file related to your router
+
+Copy/edit:
+- `.env-sample` into `.env`
+- `telegraf-docker-sample.conf` into `telegraf.conf``
+
+Then run the container:
+
+```
+docker run --rm -it --env-file .env -v $PWD/telegraf.conf:/etc/telegraf/telegraf.conf:ro chevdor/fritzgraf
+````
+
+After 30s, you can connect to your influxdb and check:
+
+```
+influx --host 192.168.0.4
+use telegraf
+show series
+````
+
+You should see an output similar to:
+```
+> show series
+key
+---
+FritzBox,host=(none),source=general
+FritzBox,host=(none),source=lan
+FritzBox,host=(none),source=status
+FritzBox,host=(none),source=wan
+FritzBox,host=(none),source=wlan_2.4GHz
+FritzBox,host=(none),source=wlan_5GHz
+FritzBox,host=(none),source=wlan_Guest
+````
+
+You may now jump into grafana and enjoy beautiful charts.
