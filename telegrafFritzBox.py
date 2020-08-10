@@ -57,9 +57,9 @@ def influxrow(tag, data):
 deviceInfo = readfritz('DeviceInfo1', 'GetInfo')
 wanInfo = readfritz('WANCommonIFC1', 'GetCommonLinkProperties')
 trafficInfo = readfritz('WANCommonIFC1', 'GetAddonInfos')
-#connectionInfo = readfritz('WANIPConn1', 'GetStatusInfo') 
+connectionInfo = readfritz('WANIPConn1', 'GetStatusInfo') 
 if FRITZBOX_CONNECTION_DSL: #only appliciable if DSL Upstream connection
-    connectionInfo = readfritz('WANPPPConnection1', 'GetInfo') 
+    dslConnectionInfo = readfritz('WANPPPConnection1', 'GetInfo') 
     dslInfo = readfritz('WANDSLInterfaceConfig1', 'GetInfo')
     dslError = readfritz('WANDSLInterfaceConfig1', 'GetStatisticsTotal')
     dslInfo = readfritz('WANDSLInterfaceConfig1', 'GetInfo')
@@ -85,9 +85,6 @@ fbName = extractvar(fritzInfo, 'NewDomainName', False,'host')
 fbName = fbName.replace('"','')
 
 upTime = extractvar(deviceInfo, 'NewUpTime', True)
-connectionTime = extractvar(connectionInfo, 'NewUptime', True, 'ConnectionTime')
-connectionStatus = extractvar(connectionInfo, 'NewConnectionStatus', False, True)
-connectionError = extractvar(connectionInfo, 'NewLastConnectionError', False, True, 'LastError')
 connectionType = extractvar(wanInfo, 'NewWANAccessType', False, True)
 
 maxDownRate = extractvar(wanInfo, 'NewLayer1DownstreamMaxBitRate', True)
@@ -102,28 +99,59 @@ upTotal = extractvar(trafficInfo, 'NewTotalBytesSent', True)
 downTotal64 = extractvar(trafficInfo, 'NewX_AVM_DE_TotalBytesReceived64', False, False, 'TotalBytesReceived64' )
 upTotal64 = extractvar(trafficInfo, 'NewX_AVM_DE_TotalBytesSent64', False, False,'TotalBytesSent64')
 
-externalIP = extractvar(connectionInfo, 'NewExternalIPAddress', False, True)
-dns = extractvar(connectionInfo, 'NewDNSServers', False, True)
+
 localDns = extractvar(fritzInfo, 'NewDNSServers', False, True,'LocalDNSServer')
 hostsKnown = extractvar(dhcpInfo, 'NewHostNumberOfEntries', True, False)
 
+# Stats seemingly only available on DSL
+if FRITZBOX_CONNECTION_DSL:
+    connectionTime = extractvar(dslConnectionInfo, 'NewUptime', True, 'ConnectionTime')
+    connectionStatus = extractvar(dslConnectionInfo, 'NewConnectionStatus', False, True)
+    connectionError = extractvar(dslConnectionInfo, 'NewLastConnectionError', False, True, 'LastError')
+    externalIP = extractvar(dslConnectionInfo, 'NewExternalIPAddress', False, True)
+    dns = extractvar(dslConnectionInfo, 'NewDNSServers', False, True)
+else:
+    connectionTime = ''
+    connectionStatus = ''
+    connectionError = ''
+    externalIP = ''
+    dns = ''
+    
 # Try to extract all the DSL Statistics
-dslDown = extractvar(dslInfo, 'NewDownstreamCurrRate', True)
-dslUp = extractvar(dslInfo, 'NewUpstreamCurrRate', True)
-dslMaxDown = extractvar(dslInfo, 'NewDownstreamMaxRate', True)
-dslMaxUp = extractvar(dslInfo, 'NewUpstreamMaxRate', True)
-noiseDown = extractvar(dslInfo, 'NewDownstreamNoiseMargin', True)
-noiseUp = extractvar(dslInfo, 'NewUpstreamNoiseMargin', True)
-powerDown = extractvar(dslInfo, 'NewDownstreamPower', True)
-powerUp = extractvar(dslInfo, 'NewUpstreamPower', True)
-attenuationDown = extractvar(dslInfo, 'NewDownstreamAttenuation', True)
-attenuationUp = extractvar(dslInfo, 'NewUpstreamAttenuation', True)
-fecError = extractvar(dslError, 'NewFECErrors', True)
-fecErrorLocal = extractvar(dslError, 'NewATUCFECErrors', True)
-crcError = extractvar(dslError, 'NewCRCErrors', True)
-crcErrorLocal = extractvar(dslError, 'NewATUCCRCErrors', True)
-hecError = extractvar(dslError, 'NewHECErrors', True)
-hecErrorLocal = extractvar(dslError, 'NewATUCHECErrors', True)
+if FRITZBOX_CONNECTION_DSL:
+    dslDown = extractvar(dslInfo, 'NewDownstreamCurrRate', True)
+    dslUp = extractvar(dslInfo, 'NewUpstreamCurrRate', True)
+    dslMaxDown = extractvar(dslInfo, 'NewDownstreamMaxRate', True)
+    dslMaxUp = extractvar(dslInfo, 'NewUpstreamMaxRate', True)
+    noiseDown = extractvar(dslInfo, 'NewDownstreamNoiseMargin', True)
+    noiseUp = extractvar(dslInfo, 'NewUpstreamNoiseMargin', True)
+    powerDown = extractvar(dslInfo, 'NewDownstreamPower', True)
+    powerUp = extractvar(dslInfo, 'NewUpstreamPower', True)
+    attenuationDown = extractvar(dslInfo, 'NewDownstreamAttenuation', True)
+    attenuationUp = extractvar(dslInfo, 'NewUpstreamAttenuation', True)
+    fecError = extractvar(dslError, 'NewFECErrors', True)
+    fecErrorLocal = extractvar(dslError, 'NewATUCFECErrors', True)
+    crcError = extractvar(dslError, 'NewCRCErrors', True)
+    crcErrorLocal = extractvar(dslError, 'NewATUCCRCErrors', True)
+    hecError = extractvar(dslError, 'NewHECErrors', True)
+    hecErrorLocal = extractvar(dslError, 'NewATUCHECErrors', True)
+else:
+    dslDown = ''
+    dslUp = ''
+    dslMaxDown = ''
+    dslMaxUp = ''
+    noiseDown = ''
+    noiseUp = ''
+    powerDown = ''
+    powerUp = ''
+    attenuationDown = ''
+    attenuationUp = ''
+    fecError = ''
+    fecErrorLocal = ''
+    crcError = ''
+    crcErrorLocal = ''
+    hecError = ''
+    hecErrorLocal = ''
 
 lanPackageUp = extractvar(lanStat, 'NewPacketsSent', True)
 lanPackageDown = extractvar(lanStat, 'NewPacketsReceived', True)
