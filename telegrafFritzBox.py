@@ -7,12 +7,12 @@ import os
 FRITZBOX_IP = os.environ.get('FRITZ_IP', '192.168.178.1')
 FRITZBOX_USER = os.environ.get('FRITZ_USER', 'telegraf')
 FRITZBOX_PASSWORD = os.environ.get('FRITZ_PASSWD')
-FRITZBOX_ID = os.environ.get('FRITZ_ID', 'FritzBox')
 
-def isDSL(fc):
-    r = fc.call_action('Layer3Forwarding', 'GetDefaultConnectionService')
-    module = r['NewDefaultConnectionService'].replace('.', '')[1:]
-    return module != 'WANIPConnection1'
+def isDSL(connectionType):
+    print(connectionType)
+    # r = fc.call_action('Layer3Forwarding', 'GetDefaultConnectionService')
+    # module = r['NewDefaultConnectionService'].replace('.', '')[1:]
+    return not 'Cable' in connectionType   
   
 def connect():
     try:
@@ -55,7 +55,7 @@ def assemblevar(*args):
     return data
 
 def influxrow(tag, data):
-    influx = FRITZBOX_ID +','+ fbName +  ',source=' + tag + ' ' + data 
+    influx = serial +','+ fbName +  ',source=' + tag + ' ' + data 
     print(influx)
 
 def getConnectionInfo(fc):
@@ -67,7 +67,7 @@ def getConnectionInfo(fc):
     return readfritz(module, action) 
     
 fc = connect()
-FRITZBOX_CONNECTION_DSL = isDSL(fc)
+
 
 #Get FritzBox variables
 deviceInfo = readfritz('DeviceInfo1', 'GetInfo')
@@ -97,6 +97,8 @@ serial = extractvar(deviceInfo, 'NewSerialNumber', False)
 fbName = extractvar(fritzInfo, 'NewDomainName', False,'host')
 upTime = extractvar(deviceInfo, 'NewUpTime', True)
 connectionType = extractvar(wanInfo, 'NewWANAccessType', False, True)
+
+FRITZBOX_CONNECTION_DSL = isDSL(connectionType)
 
 #FritzBox traffic and line speed information
 maxDownRate = extractvar(wanInfo, 'NewLayer1DownstreamMaxBitRate', True)
