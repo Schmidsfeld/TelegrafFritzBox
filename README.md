@@ -82,7 +82,7 @@ First, you will need 2 files:
 
 Copy/edit:
 - `.env-sample` into `.env`
-- `telegraf-docker-sample.conf` into `telegraf.conf``
+- `telegrafDockerSample.conf` into `telegraf.conf``
 
 Then run the container:
 
@@ -90,26 +90,11 @@ Then run the container:
 docker run --rm -it --env-file .env -v $PWD/telegraf.conf:/etc/telegraf/telegraf.conf:ro chevdor/fritzgraf
 ````
 
-After 30s, you can connect to your influxdb and check:
+After 30s, you can connect to your influxdb and check.
 
 ```
-influx --host 192.168.0.4
+influx --host IP_of_your_DockerImage
 use telegraf
 show series
 ````
 
-You should see an output similar to:
-```
-> show series
-key
----
-FritzBox,host=(none),source=general
-FritzBox,host=(none),source=lan
-FritzBox,host=(none),source=status
-FritzBox,host=(none),source=wan
-FritzBox,host=(none),source=wlan_2.4GHz
-FritzBox,host=(none),source=wlan_5GHz
-FritzBox,host=(none),source=wlan_Guest
-````
-
-You may now jump into grafana and enjoy beautiful charts.
