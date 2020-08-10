@@ -6,17 +6,21 @@ import os
 
 FRITZBOX_IP = os.environ.get('FRITZ_IP', '192.168.178.1')
 FRITZBOX_USER = os.environ.get('FRITZ_USER', 'telegraf')
-FRITZBOX_PASSWORD = os.environ.get('Fritz_PASSWD' "SuperStrongPassword")
+FRITZBOX_PASSWORD = os.environ.get('FRITZ_PASSWD')
 FRITZBOX_ID = os.environ.get('FRITZ_ID', 'FritzBox')
 
-#For sesting purpose
-FRITZBOX_CONNECTION_DSL = True #set to false if you have a cable or IP upstream
-
-try:
-    fc = FritzConnection(address=FRITZBOX_IP, user=FRITZBOX_USER, password=FRITZBOX_PASSWORD, timeout=2.0)
-except BaseException:
-    print("Cannot connect to fritzbox.")
-    sys.exit(1)
+def isDSL(fc):
+    r = fc.call_action('Layer3Forwarding', 'GetDefaultConnectionService')
+    module = r['NewDefaultConnectionService'].replace('.', '')[1:]
+    return module != 'WANIPConnection1'
+  
+def connect():
+    try:
+        fc = FritzConnection(address=FRITZBOX_IP, user=FRITZBOX_USER, password=FRITZBOX_PASSWORD, timeout=2.0)
+    except BaseException:
+        print("Cannot connect to fritzbox.")
+        sys.exit(1)
+    return fc
 
 def readfritz(module, action):
     try:
@@ -54,12 +58,22 @@ def influxrow(tag, data):
     influx = FRITZBOX_ID +','+ fbName +  ',source=' + tag + ' ' + data 
     print(influx)
 
+def getConnectionInfo(fc):
+    r = fc.call_action('Layer3Forwarding', 'GetDefaultConnectionService')
+    module = r['NewDefaultConnectionService'].replace('.', '')[1:]
+    action = 'GetInfo'
+    if (module == 'WANIPConnection1'):
+        action = 'GetStatusInfo'
+    return readfritz(module, action) 
+    
+fc = connect()
+FRITZBOX_CONNECTION_DSL = isDSL(fc)
+
 #Get FritzBox variables
 deviceInfo = readfritz('DeviceInfo1', 'GetInfo')
 wanInfo = readfritz('WANCommonIFC1', 'GetCommonLinkProperties')
 trafficInfo = readfritz('WANCommonIFC1', 'GetAddonInfos')
-#connectionInfo = readfritz('WANIPConn1', 'GetStatusInfo') 
-connectionInfo = readfritz('WANPPPConnection1', 'GetInfo') 
+connectionInfo = getConnectionInfo(fc)
 dslInfo = readfritz('WANDSLInterfaceConfig1', 'GetInfo')
 dslError = readfritz('WANDSLInterfaceConfig1', 'GetStatisticsTotal')
 dslInfo = readfritz('WANDSLInterfaceConfig1', 'GetInfo')
