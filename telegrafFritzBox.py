@@ -6,10 +6,10 @@ import os
 
 FRITZBOX_IP = os.environ.get('FRITZ_IP', '192.168.178.1')
 FRITZBOX_USER = os.environ.get('FRITZ_USER', 'telegraf')
-FRITZBOX_PASSWORD = os.environ.get('Fritz_PASSWD', "SuperStrongPassword")
+FRITZBOX_PASSWORD = os.environ.get('FRITZ_PASSWD', "SuperStrongPassword")
 FRITZBOX_ID = os.environ.get('FRITZ_ID', 'FritzBox')
 
-#For sesting purpose
+#For testing purpose
 FRITZBOX_CONNECTION_DSL = True #set to false if you have a cable or IP upstream
 
 try:
@@ -144,7 +144,6 @@ wlanChannelGuest = extractvar(wlanInfoGuest, 'NewChannel', True)
 wlanClients24 = extractvar(wlanAssoc24, 'NewTotalAssociations', True, False, 'ClientsNumber')
 wlanClients50 = extractvar(wlanAssoc50, 'NewTotalAssociations', True, False, 'ClientsNumber')
 wlanClientsGuest = extractvar(wlanAssocGuest, 'NewTotalAssociations', True, False, 'ClientsNumber')
-
 
 #Output variables as sets of influxdb compatible lines 
 general = assemblevar(model, connectionType, serial, firmware)
