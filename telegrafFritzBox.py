@@ -6,7 +6,7 @@ import os
 
 FRITZBOX_IP = os.environ.get('FRITZ_IP', '192.168.178.1')
 FRITZBOX_USER = os.environ.get('FRITZ_USER', 'telegraf')
-FRITZBOX_PASSWORD = os.environ.get('Fritz_PASSWD' "SuperStrongPassword")
+FRITZBOX_PASSWORD = os.environ.get('Fritz_PASSWD', "SuperStrongPassword")
 FRITZBOX_ID = os.environ.get('FRITZ_ID', 'FritzBox')
 
 #For sesting purpose
