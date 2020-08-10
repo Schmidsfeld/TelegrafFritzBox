@@ -9,9 +9,6 @@ FRITZBOX_USER = os.environ.get('FRITZ_USER', 'telegraf')
 FRITZBOX_PASSWORD = os.environ.get('FRITZ_PASSWD')
 
 def isDSL(connectionType):
-    print(connectionType)
-    # r = fc.call_action('Layer3Forwarding', 'GetDefaultConnectionService')
-    # module = r['NewDefaultConnectionService'].replace('.', '')[1:]
     return not 'Cable' in connectionType   
   
 def connect():
@@ -26,7 +23,7 @@ def readfritz(module, action):
     try:
         answer = fc.call_action(module, action)
     except:
-        answer = dict() #return an emty dict in case of failure
+        answer = dict() #return an empty dict in case of failure
     return answer
 
 def extractvar(answer, variable, integer=False, string=False, name=""):
