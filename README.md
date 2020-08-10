@@ -9,7 +9,7 @@ A Telegraf collector written in Phthon, gathering several crucial metrics for th
 The communication with the router is based on the FritzConnection library https://github.com/kbr/fritzconnection by Klaus Bremer.
 
 For some future development of this script (especially with cable internet access) additional help is required. The script now has been sanatized not to crash if a varible is nout found. Please send me examples of your
-'http://fritz.box:49000/tr64desc.xml'
+`http://fritz.box:49000/tr64desc.xml`
 If you have another connection type please check it there is an equivalent to the DSL statistics in there...
 
 Forking and modifying this script is explicitly encouraged (hence you most likely need to adjust for your situation). I would appreciate if you drop me a note f you implement other stuff so I can backport it into the main script. 
@@ -41,18 +41,18 @@ The script utilizes a single connection to the FritzBox router with the FritzCon
 
 ## Install
 Several prerequisites need to be met to successfully install this script and generate the metrics. Some seem to be obvious but will be mentioned here for sake of complete documentation. 
-* Have an operational TIG stack (Telegraf, InfluxDB Grafana) with all of them installed and operational.
+* Have an operational TIG stack (Telegraf, InfluxDB, Grafana) with all of them installed and operational.
 * Activate the TR-064 protocoll in the Fritzbox (Heimnetz -> Netzwerk -> Netzwerkeinstellungen)
 * Have a dedicated user on the Fritz!Box (the username:Telegraf is assumed, but any will do)
-* Install python3 and pip  (for example: 'apt install python3-pip')
-* Locally clone the fritzconnection library ('pip3 install fritzconnection')
-* Clone this project ('git clone https://github.com/Schmidsfeld/TelegrafFritzBox/')
-* Edit the python file and adjust the credentials '(nano ./TelegrafFritzBox/telegrafFritzBox.py')
-* Make it executeamle ('chmod +x ./TelegrafFritzBox/telegrafFritzBox.py')
-* Test the output ('python3 ./TelegrafFritzBox/telegrafFritzBox.py')
-* Copy it to the appropiate locatio ('cp ./TelegrafFritzBox/telegrafFritzBox.py /usr/local/bin')
-* Copy the Telegraf config file to the correct location or append it to your current file ('cp ./TelegrafFritzBox/telegrafFritzBox.conf /etc/telegraf/telegraf.d')
-* Restart your Telegraf service ('systemctl restart telegraf')
+* Install python3 and pip  (for example: `apt install python3-pip`)
+* Locally clone the fritzconnection library (`pip3 install fritzconnection`)
+* Clone this project (`git clone https://github.com/Schmidsfeld/TelegrafFritzBox/`)
+* Edit the python file and adjust the credentials (`nano ./TelegrafFritzBox/telegrafFritzBox.py`)
+* Make it executeamle (`chmod +x ./TelegrafFritzBox/telegrafFritzBox.py`)
+* Test the output (`python3 ./TelegrafFritzBox/telegrafFritzBox.py`)
+* Copy it to the appropiate locatio (`cp ./TelegrafFritzBox/telegrafFritzBox.py /usr/local/bin`)
+* Copy the Telegraf config file to the correct location or append it to your current file (`cp ./TelegrafFritzBox/telegrafFritzBox.conf /etc/telegraf/telegraf.d`)
+* Restart your Telegraf service (`systemctl restart telegraf`)
 * Load your Grafana dashboard (grafana/GrafanaFritzBoxDashboard.json)
 
 ## Future Plans
