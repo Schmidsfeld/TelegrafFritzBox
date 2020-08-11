@@ -60,7 +60,6 @@ wanInfo = readfritz('WANCommonIFC1', 'GetCommonLinkProperties')
 trafficInfo = readfritz('WANCommonIFC1', 'GetAddonInfos')
 dslInfo = readfritz('WANDSLInterfaceConfig1', 'GetInfo')
 dslError = readfritz('WANDSLInterfaceConfig1', 'GetStatisticsTotal')
-dslInfo = readfritz('WANDSLInterfaceConfig1', 'GetInfo')
 fritzInfo = readfritz('LANHostConfigManagement1', 'GetInfo')
 dhcpInfo = readfritz('Hosts1', 'GetHostNumberOfEntries')
 lanStat = readfritz('LANEthernetInterfaceConfig1', 'GetStatistics')
@@ -73,7 +72,6 @@ wlanInfoGuest = readfritz('WLANConfiguration3', 'GetInfo')
 wlanAssoc24 = readfritz('WLANConfiguration1', 'GetTotalAssociations')
 wlanAssoc50 = readfritz('WLANConfiguration2', 'GetTotalAssociations')
 wlanAssocGuest = readfritz('WLANConfiguration3', 'GetTotalAssociations')
-
 
 
 #Parse single variables into influxdb compatible strings
