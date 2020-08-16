@@ -43,24 +43,29 @@ The script utilizes a single connection to the FritzBox router with the FritzCon
 Several prerequisites need to be met to successfully install this script and generate the metrics. Some seem to be obvious but will be mentioned here for sake of complete documentation. 
 * Have an operational TIG stack (Telegraf, InfluxDB, Grafana) with all of them installed and operational.
 * Activate the TR-064 protocoll in the Fritzbox (Heimnetz -> Netzwerk -> Netzwerkeinstellungen)
-* Have a dedicated user on the Fritz!Box (the username:Telegraf is assumed, but any will do)
-* Install python3 and pip  (for example: `apt install python3-pip`)
-* Locally clone the fritzconnection library (`pip3 install fritzconnection`)
-* Clone this project (`git clone https://github.com/Schmidsfeld/TelegrafFritzBox/`)
-* Edit the python file and adjust the credentials (`nano ./TelegrafFritzBox/telegrafFritzBox.py`)
-* Make it executeamle (`chmod +x ./TelegrafFritzBox/telegrafFritzBox.py`)
-* Test the output (`python3 ./TelegrafFritzBox/telegrafFritzBox.py`)
-* Copy it to the appropiate locatio (`cp ./TelegrafFritzBox/telegrafFritzBox.py /usr/local/bin`)
-* Copy the Telegraf config file to the correct location or append it to your current file (`cp ./TelegrafFritzBox/telegrafFritzBox.conf /etc/telegraf/telegraf.d`)
-* Restart your Telegraf service (`systemctl restart telegraf`)
+* Optional: Have a dedicated user on the Fritz!Box (for example :Telegraf)
+* download and install the script (example for debian/ubuntu)
+``
+apt install python3-pip
+pip3 install fritzconnection
+git clone https://github.com/Schmidsfeld/TelegrafFritzBox/
+chmod +x ./TelegrafFritzBox/telegrafFritzBox.py
+cp ./TelegrafFritzBox/telegrafFritzBox.py /usr/local/bin
+``
+* Edit the telegraf file and adjust the credentials (`nano ./TelegrafFritzBox/telegrafFritzBox.conf`) 
+``
+cp ./TelegrafFritzBox/telegrafFritzBox.conf /etc/telegraf/telegraf.d
+python3 ./TelegrafFritzBox/telegrafFritzBox.py
+systemctl restart telegraf
+``
 * Load your Grafana dashboard (grafana/GrafanaFritzBoxDashboard.json)
 
 ## This script uses optionally the environment variables for authentification:
 The required IP and Password can be set from environment variables
-FRITZ_IP_ADDRESS  IP-address of the FritzBox (Default 169.254.1.1)
-FRITZ_TCP_PORT    Port of the FritzBox (Default: 49000)
-FRITZ_USERNAME    Fritzbox authentication username (Default: Admin)
-FRITZ_PASSWORD    Fritzbox authentication password
+* FRITZ_IP_ADDRESS  IP-address of the FritzBox (Default 169.254.1.1)
+* FRITZ_TCP_PORT    Port of the FritzBox (Default: 49000)
+* FRITZ_USERNAME    Fritzbox authentication username (Default: Admin)
+* FRITZ_PASSWORD    Fritzbox authentication password
 
 ## Future Plans
 This Project is ready and tested locally, to ensure it is suiteable for publications, but not yet finished. For some parts I need help with additional testing (especially other connections than DSL). There are several things planned for future releases:
@@ -74,3 +79,4 @@ Since the last major milestone the following parts have been changed
 * Fixed crash on non DSL connection (some stats still missing)
 * Added statistics about connected LAN / WLAN devices
 * First beta for smarthome devices (in a seperate file)
+* No more dedicated user required
