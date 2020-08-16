@@ -1,4 +1,0 @@
-.env*
-!.env-sample
-telegraf*.conf
-!telegraf-docker-sample.conf
