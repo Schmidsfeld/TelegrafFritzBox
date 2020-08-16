@@ -37,7 +37,7 @@ The script utilizes a single connection to the FritzBox router with the FritzCon
 * All names are sanitized (no "New" in variable names)
 * All variables are cast into appropriate types (integer for numbers, string for expressions and float for 64bit total traffic)
 
-![Grafana dashboard](doc/OutputScript.png?raw=true)
+![InfluxDB compatible output](doc/OutputScript.png?raw=true)
 
 ## Install
 Several prerequisites need to be met to successfully install this script and generate the metrics. Some seem to be obvious but will be mentioned here for sake of complete documentation. 
@@ -55,10 +55,22 @@ Several prerequisites need to be met to successfully install this script and gen
 * Restart your Telegraf service (`systemctl restart telegraf`)
 * Load your Grafana dashboard (grafana/GrafanaFritzBoxDashboard.json)
 
+## This script uses optionally the environment variables for authentification:
+The required IP and Password can be set from environment variables
+FRITZ_IP_ADDRESS  IP-address of the FritzBox (Default 169.254.1.1)
+FRITZ_TCP_PORT    Port of the FritzBox (Default: 49000)
+FRITZ_USERNAME    Fritzbox authentication username (Default: Admin)
+FRITZ_PASSWORD    Fritzbox authentication password
+
 ## Future Plans
 This Project is ready and tested locally, to ensure it is suiteable for publications, but not yet finished. For some parts I need help with additional testing (especially other connections than DSL). There are several things planned for future releases:
-* Gather more stats (active clients in LAN, etc)
+* Gather more stats about signals strengths
 * Getting data about active phones and calls etc
-* Read data from connected smarthome devices like the Fritz!DECT200
 * Gather upstream information for cable based uplinks
 
+## Changelog
+Since the last major milestone the following parts have been changed
+* IP and password in environment variabe or telegraf config file
+* Fixed crash on non DSL connection (some stats still missing)
+* Added statistics about connected LAN / WLAN devices
+* First beta for smarthome devices (in a seperate file)
