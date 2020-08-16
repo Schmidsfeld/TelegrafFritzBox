@@ -47,15 +47,21 @@ Several prerequisites need to be met to successfully install this script and gen
 * download and install the script (example for debian/ubuntu)
 ``
 apt install python3-pip
+
 pip3 install fritzconnection
+
 git clone https://github.com/Schmidsfeld/TelegrafFritzBox/
+
 chmod +x ./TelegrafFritzBox/telegrafFritzBox.py
+
 cp ./TelegrafFritzBox/telegrafFritzBox.py /usr/local/bin
 ``
 * Edit the telegraf file and adjust the credentials (`nano ./TelegrafFritzBox/telegrafFritzBox.conf`) 
 ``
 cp ./TelegrafFritzBox/telegrafFritzBox.conf /etc/telegraf/telegraf.d
+
 python3 ./TelegrafFritzBox/telegrafFritzBox.py
+
 systemctl restart telegraf
 ``
 * Load your Grafana dashboard (grafana/GrafanaFritzBoxDashboard.json)
