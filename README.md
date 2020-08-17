@@ -50,11 +50,15 @@ apt install python3-pip
 pip3 install fritzconnection
 git clone https://github.com/Schmidsfeld/TelegrafFritzBox/
 chmod +x ./TelegrafFritzBox/telegrafFritzBox.py
+chmod +x ./TelegrafFritzBox/telegrafFritzSmartHome.py
 cp ./TelegrafFritzBox/telegrafFritzBox.py /usr/local/bin
+cp ./TelegrafFritzBox/telegrafFritzSmartHome.py /usr/local/bin
 ```
-* Edit the telegraf file and adjust the credentials (`nano ./TelegrafFritzBox/telegrafFritzBox.conf`) 
+* Edit the telegraf file and adjust the credentials (`nano ./TelegrafFritzBox/telegrafFritzBox.conf`)
+* If you want to use the FritzBox smarthome features also in (`nano ./TelegrafFritzBox/telegrafFritzSmartHome.conf`)
 ```
 cp ./TelegrafFritzBox/telegrafFritzBox.conf /etc/telegraf/telegraf.d
+cp ./TelegrafFritzBox/telegrafFritzSmartHome.conf /etc/telegraf/telegraf.d
 python3 ./TelegrafFritzBox/telegrafFritzBox.py
 systemctl restart telegraf
 ```
@@ -79,4 +83,4 @@ Since the last major milestone the following parts have been changed
 * Fixed crash on non DSL connection (some stats still missing)
 * Added statistics about connected LAN / WLAN devices
 * First beta for smarthome devices (in a seperate file)
-* No more dedicated user required
+* No more dedicated user required (admin account is the default iy only password is given)
