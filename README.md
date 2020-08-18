@@ -23,7 +23,7 @@ Information that you get
 * Local networks (LAN and WLAN traffic)
 * connected WLAN clients
 
-![Grafana dashboard](doc/FritzBoxDashboard.png?raw=true)
+![Grafana dashboard](doc/FritzBoxDashboard2.png?raw=true)
 
 ## Details
 ### Concept
