@@ -70,6 +70,14 @@ The required IP and Password can be set from environment variables
 * FRITZ_USERNAME    Fritzbox authentication username (Default: Admin)
 * FRITZ_PASSWORD    Fritzbox authentication password
 
+## Non DSL Uplink
+This version should at least not crash if other uplinks than DSL are used. Some stats will be missing. This can be partly circumvented by setting the variable `` IS_DSL = False`` in the python file Since I don't have the information or devices to test non DSL uplinks, I put together a testfile.
+If you have a non DSL line (Cable / Fiber / LTE etc.) and a fritzbox, please consider sending me the output of  
+```
+python3 testNonDSLuplink.py -p PASSWORD
+```
+
+
 ## Future Plans
 This Project is ready and tested locally, to ensure it is suiteable for publications, but not yet finished. For some parts I need help with additional testing (especially other connections than DSL). There are several things planned for future releases:
 * Gather more stats about signals strengths
