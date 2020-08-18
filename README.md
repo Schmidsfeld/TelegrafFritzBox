@@ -65,13 +65,13 @@ systemctl restart telegraf
 
 ## This script uses optionally the environment variables for authentification:
 The required IP and Password can be set from environment variables
-* FRITZ_IP_ADDRESS  IP-address of the FritzBox (Default 169.254.1.1)
-* FRITZ_TCP_PORT    Port of the FritzBox (Default: 49000)
-* FRITZ_USERNAME    Fritzbox authentication username (Default: Admin)
-* FRITZ_PASSWORD    Fritzbox authentication password
+* ``FRITZ_IP_ADDRESS``  IP-address of the FritzBox (Default 169.254.1.1)
+* ``FRITZ_TCP_PORT``    Port of the FritzBox (Default: 49000)
+* ``FRITZ_USERNAME``    Fritzbox authentication username (Default: Admin)
+* ``FRITZ_PASSWORD``    Fritzbox authentication password
 
 ## Non DSL Uplink
-This version should at least not crash if other uplinks than DSL are used. Some stats will be missing. This can be partly circumvented by setting the variable `` IS_DSL = False`` in the python file Since I don't have the information or devices to test non DSL uplinks, I put together a testfile.
+This version should at least not crash if other uplinks than DSL are used. Some stats will be missing. This can be partly circumvented by setting the variable `` IS_DSL = False`` in the python file. Since I don't have the information or devices to test non DSL uplinks, I put together a testfile.
 If you have a non DSL line (Cable / Fiber / LTE etc.) and a fritzbox, please consider sending me the output of  
 ```
 python3 testNonDSLuplink.py -p PASSWORD
