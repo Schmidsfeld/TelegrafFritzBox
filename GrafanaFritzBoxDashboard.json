@@ -2656,7 +2656,7 @@
             [
               {
                 "params": [
-                  "TotalBytesReceved64"
+                  "TotalBytesReceived64"
                 ],
                 "type": "field"
               },
@@ -2691,7 +2691,7 @@
             [
               {
                 "params": [
-                  "TotalBytesReceved64"
+                  "TotalBytesReceived64"
                 ],
                 "type": "field"
               },
@@ -2726,7 +2726,7 @@
             [
               {
                 "params": [
-                  "TotalBytesReceved64"
+                  "TotalBytesReceived64"
                 ],
                 "type": "field"
               },
@@ -3035,7 +3035,7 @@
           ]
         },
         {
-          "alias": "WLAN 5 GHz Upstream",
+          "alias": "WLAN 5 GHz Downstream",
           "groupBy": [
             {
               "params": [
@@ -3059,7 +3059,7 @@
             [
               {
                 "params": [
-                  "PacketsReceived"
+                  "PacketsSent"
                 ],
                 "type": "field"
               },
