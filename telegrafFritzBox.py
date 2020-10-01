@@ -128,7 +128,7 @@ deviceInfo = readfritz('DeviceInfo1', 'GetInfo')
 if IS_DSL:
     connectionInfo = readfritz('WANPPPConnection1', 'GetInfo')
 else:
-    connectionInfo = readfritz('WANIPConn1', 'GetStatusInfo')
+    connectionInfo = readfritz('WANIPConnection1', 'GetInfo')
 wanInfo = readfritz('WANCommonIFC1', 'GetCommonLinkProperties')
 trafficInfo = readfritz('WANCommonIFC1', 'GetAddonInfos')
 dslInfo = readfritz('WANDSLInterfaceConfig1', 'GetInfo')
