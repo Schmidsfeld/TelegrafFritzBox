@@ -240,7 +240,10 @@ if IS_DSL:
     dsl = assemblevar(dslDown, dslUp, dslMaxDown, dslMaxUp, noiseDown, noiseUp, powerDown, powerUp, attenuationDown, attenuationUp, hecError, hecErrorLocal, crcError, crcErrorLocal, fecError, fecErrorLocal )
     influxrow('dsl', dsl)
 
-network = assemblevar(externalIP, dns, localDns, hostsEntry, hostsKnown, hostsKnownLAN, hostsKnownWLAN, hostsActive, hostsActiveLAN, hostsActiveWLAN)
+if IS_DSL:
+    network = assemblevar(externalIP, dns, localDns, hostsEntry, hostsKnown, hostsKnownLAN, hostsKnownWLAN, hostsActive, hostsActiveLAN, hostsActiveWLAN)
+else:
+    network = assemblevar(localDns, hostsEntry, hostsKnown, hostsKnownLAN, hostsKnownWLAN, hostsActive, hostsActiveLAN, hostsActiveWLAN)
 influxrow('network', network)
 
 lan = assemblevar(lanPackageUp, lanPackageDown)
