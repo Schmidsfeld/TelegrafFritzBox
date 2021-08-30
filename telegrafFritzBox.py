@@ -17,6 +17,7 @@ import itertools
 
 FRITZBOX_ID = 'FritzBox' # Name of the InfluxDB database.
 IS_DSL = True # Switch to False for Cable or IP Connections
+IS_INTERNET_FACING = True # Switch to False, if your Fritzbox used non public ip
 
 
 # This script uses optionally the environment variables for authentification:
@@ -240,7 +241,10 @@ if IS_DSL:
     dsl = assemblevar(dslDown, dslUp, dslMaxDown, dslMaxUp, noiseDown, noiseUp, powerDown, powerUp, attenuationDown, attenuationUp, hecError, hecErrorLocal, crcError, crcErrorLocal, fecError, fecErrorLocal )
     influxrow('dsl', dsl)
 
-network = assemblevar(externalIP, dns, localDns, hostsEntry, hostsKnown, hostsKnownLAN, hostsKnownWLAN, hostsActive, hostsActiveLAN, hostsActiveWLAN)
+if IS_INTERNET_FACING:
+    network = assemblevar(externalIP, dns, localDns, hostsEntry, hostsKnown, hostsKnownLAN, hostsKnownWLAN, hostsActive, hostsActiveLAN, hostsActiveWLAN)
+else:
+    network = assemblevar(localDns, hostsEntry, hostsKnown, hostsKnownLAN, hostsKnownWLAN, hostsActive, hostsActiveLAN, hostsActiveWLAN)
 influxrow('network', network)
 
 lan = assemblevar(lanPackageUp, lanPackageDown)
