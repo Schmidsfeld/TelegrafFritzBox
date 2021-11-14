@@ -52,7 +52,7 @@ def extractvar(answer, variable, integer=False, string=True, name=""):
     return avar
 
 def assemblevar(*args):
-    data = ','.join(list(args))+','
+    data = ','.join([x for x in list(args) if x!=''])+','
     #cleaning up output
     data = data.replace("New", "")
     data = data.replace(",,",",")
