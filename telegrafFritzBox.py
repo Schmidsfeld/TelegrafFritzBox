@@ -52,19 +52,13 @@ def extractvar(answer, variable, integer=False, string=True, name=""):
     return avar
 
 def assemblevar(*args):
-    data = ','.join(list(args))+','
+    data = ','.join([a for a in args if a != ''])
     #cleaning up output
     data = data.replace("New", "")
-    data = data.replace(",,",",")
-    data = data.replace(",,",",")
-    data = data.replace(",,",",")
-    data = data.replace(",,",",")
-    data = data[:-1]
     return data
 
 def influxrow(tag, data):
-    influx = FRITZBOX_ID +','+ fbName +  ',source=' + tag + ' ' + data
-    print(influx)
+    print(f'{FRITZBOX_ID},{fbName},source={tag} {data}')
 
 # Speccialist Stats that have to be assembled (counted) ourselfes
 def gethosts():
